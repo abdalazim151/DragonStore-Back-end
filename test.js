@@ -165,4 +165,23 @@ Favorite list add-remove
 Cart Add-remove 
 Calculate Cost  mybe auto with cart 
 
+
+tawafiq
+get all user (user,admin,seller)
+get user by id 
+get top x (user,seller admin)
+
+salah
+
+get cart's product for current user + TotlaCost
+add to cart 
+update cart quantity (not confirmed only)
+pay(change not confirmed to pending  and wait from seller response)
+remove product by id
+clear user cart
+
+
+
+
+
 */

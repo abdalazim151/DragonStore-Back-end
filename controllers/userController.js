@@ -8,14 +8,13 @@ export const login = asyncHandler(async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    if (!user) {
+    if (!user) 
         return next(new appError("Invalid email or password", 400));
-    }
-    if (user.googleId && !user.password) {
+    if (user.googleId && !user.password) 
         return next(new appError("This account is registered with Google. Please use Google Login.", 400));
-    }
-    if(!await bcrypt.compare(password, user.password)){
-        return next(new appError("Invalid email or password", 400));
+    const isPassowrd = user.comparePassword(password)
+    if(!isPassowrd){
+            return next(new appError("Invalid email or password", 400));
     }
     const accessToken = generateToken(user);
     const refreshToken = generateRefreshToken(user);
