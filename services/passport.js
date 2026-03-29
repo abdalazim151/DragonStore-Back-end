@@ -18,11 +18,11 @@ passport.use(new GoogleStrategy({
             }
             user = await User.create({
                 googleId: profile.id,
-                firstName: profile.name.givenName,      // الاسم الأول من جوجل
-                lastName: profile.name.familyName,      // الاسم الأخير من جوجل
-                email: profile.emails[0].value,         // الإيميل الأساسي
-                img: profile.photos[0].value,           // صورة البروفايل
-                isVerified: profile.emails[0].verified, // هل إيميله متفعل عند جوجل؟
+                firstName: profile.name.givenName,     
+                lastName: profile.name.familyName,     
+                email: profile.emails[0].value,         
+                img: profile.photos[0].value,           
+                isVerified: profile.emails[0].verified, 
 
             });
             token = generateToken(user)
