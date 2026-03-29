@@ -18,8 +18,8 @@ const cartSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'accepted'],
-        default: 'pending'
+        enum: ['not-confirmed','pending', 'accepted','rejected'],
+        default: 'not-confirmed'
     }
 },);
 cartSchema.index({ user: 1, product: 1, status: 1 }, { unique: true });
