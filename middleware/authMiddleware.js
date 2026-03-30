@@ -1,3 +1,6 @@
+import jwt from "jsonwebtoken"
+import User from "../models/user.js";
+
 export const auth = async (req, res, next) => {
     let { authorization } = req.headers;
     if (!authorization)
@@ -9,6 +12,7 @@ export const auth = async (req, res, next) => {
         if (!user)
             return res.status(500).json({ msg: "user not found" });
         req.roles = user.roles
+        req.user = user;//////////////////////////////////////////////
         next()
     } catch (err) {
         return res.status(500).json({ msg: err.message })

@@ -12,7 +12,8 @@ export const login = asyncHandler(async (req, res, next) => {
         return next(new appError("Invalid email or password", 400));
     if (user.googleId && !user.password) 
         return next(new appError("This account is registered with Google. Please use Google Login.", 400));
-    const isPassowrd = user.comparePassword(password)
+    // const isPassowrd = user.comparePassword(password)
+const isPassowrd = await user.comparePassword(password)
     if(!isPassowrd){
             return next(new appError("Invalid email or password", 400));
     }
