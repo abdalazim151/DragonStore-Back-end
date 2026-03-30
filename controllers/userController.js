@@ -52,3 +52,84 @@ export const register = asyncHandler(async (req, res, next) => {
         refreshToken
     });
 });
+export const getUsers = asyncHandler(async (req, res, next) => {
+    const { role, page = 1, limit = 50 } = req.query;
+
+    const allowedRoles = ['user', 'admin', 'seller'];
+
+    if (role && !allowedRoles.includes(role)) {
+        return next(new appError("Invalid role", 400));
+    }
+
+    const pageNumber = Math.max(Number(page), 1);
+    const limitNumber = Math.min(Math.max(Number(limit), 1), 50);
+    const skip = (pageNumber - 1) * limitNumber;
+
+    const filter = {};
+    if (role) {
+        filter.roles = role;
+    }
+
+    const totalUsers = await User.countDocuments(filter);
+
+    const users = await User.find(filter)
+        .select('firstName lastName email img roles')
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limitNumber);
+
+    const formattedUsers = users.map((user) => ({
+        id: user._id,
+        name: `${user.firstName} ${user.lastName}`,
+        email: user.email,
+        img: user.img,
+        roles: user.roles
+    }));
+
+    res.status(200).json({
+        status: "success",
+        results: formattedUsers.length,
+        pagination: {
+            currentPage: pageNumber,
+            limit: limitNumber,
+            totalUsers,
+            totalPages: Math.ceil(totalUsers / limitNumber)
+        },
+        data: formattedUsers
+    });
+});
+
+export const getUserById = asyncHandler(async (req, res, next) => {
+    const { id } = req.params;
+    const { role } = req.query;
+
+    const allowedRoles = ['user', 'admin', 'seller'];
+
+    if (role && !allowedRoles.includes(role)) {
+        return next(new appError("Invalid role", 400));
+    }
+
+    const filter = { _id: id };
+
+    if (role) {
+        filter.roles = role;
+    }
+
+    const user = await User.findOne(filter)
+        .select('firstName lastName email img roles');
+
+    if (!user) {
+        return next(new appError("User not found", 404));
+    }
+
+    res.status(200).json({
+        status: "success",
+        data: {
+            id: user._id,
+            name: `${user.firstName} ${user.lastName}`,
+            email: user.email,
+            img: user.img,
+            roles: user.roles
+        }
+    });
+});
