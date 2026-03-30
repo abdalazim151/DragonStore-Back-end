@@ -29,6 +29,9 @@ const ProductSchema = new mongoose.Schema({
         ref: 'User',                         
         required: [true, 'Product must belong to a user']
     },
+    img:{
+        type :String,
+    }
 }, baseOptions);
 ProductSchema.index({ title: 'text', price: 1 });
 const Product = mongoose.model('products', ProductSchema);

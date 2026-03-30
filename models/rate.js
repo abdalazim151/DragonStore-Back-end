@@ -19,7 +19,8 @@ const rateSchema = new mongoose.Schema({
     }
 }, { timestamps: true });
 
-reviewSchema.index({ product: 1, user: 1 }, { unique: true });
+rateSchema.index({ product: 1, user: 1 }, { unique: true });
+const Review = mongoose.model('rates', rateSchema);
+// const Review = mongoose.model('rates', reviewSchema);
 
-const Review = mongoose.model('rates', reviewSchema);
 export default Review;
