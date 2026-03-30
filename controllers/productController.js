@@ -18,6 +18,7 @@ export const createProduct = asyncHandler(async (req, res, next) => {
     const { Type } = req.body;
     const Model = categoryModels[Type];
     const imageUrl = req.file.path
+    console.log(imageUrl)
     if (!Model) {
         return next(new appError("Invalid category. Choose: Laptop | mobiles | headphone", 400));
     }
@@ -53,7 +54,7 @@ export const getAllProducts = asyncHandler(async (req, res, next) => {
     const skip = (Number(page) - 1) * Number(limit);
 
     const [products, total] = await Promise.all([
-        Product.find(filter).skip(skip).limit(Number(limit)).populate("user", "name email"),
+        Product.find(filter).skip(skip).limit(Number(limit)).populate("users", "name email"),
         Product.countDocuments(filter),
     ]);
 
@@ -71,7 +72,7 @@ export const getAllProducts = asyncHandler(async (req, res, next) => {
 // GET /api/products/:id
 
 export const getProduct = asyncHandler(async (req, res, next) => {
-    const product = await Product.findById(req.params.id).populate("user", "name email");
+    const product = await Product.findById(req.params.id).populate("users", "name email");
     if (!product) return next(new appError("Product not found", 404));
     res.status(200).json({ status: "success", data: product });
 });
