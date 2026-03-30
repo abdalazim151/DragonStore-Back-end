@@ -2,10 +2,10 @@ import asyncHandler from 'express-async-handler';
 import Comment from "../models/comment.js";
 import { appError } from "../utils/appError.js";
 
-// ─────────────────────────────────────────
-// ADD COMMENT  POST /api/products/:productId/comments
-// body: { content, parent? }   ← parent is optional (for replies)
-// ─────────────────────────────────────────
+// Add comment  
+// POST /api/products/:productId/comments
+// body: { content, parent? }  parent is optional (for replies)
+
 export const addComment = asyncHandler(async (req, res, next) => {
     const comment = await Comment.create({
         content: req.body.content,
@@ -17,10 +17,10 @@ export const addComment = asyncHandler(async (req, res, next) => {
     res.status(201).json({ status: "success", data: comment });
 });
 
-// ─────────────────────────────────────────
-// GET ALL COMMENTS FOR A PRODUCT  GET /api/products/:productId/comments
-// Returns top-level comments with their replies nested
-// ─────────────────────────────────────────
+// Get all comments for a product  
+// GET /api/products/:productId/comments
+// returns top-level comments with their replies nested
+
 export const getProductComments = asyncHandler(async (req, res, next) => {
     const allComments = await Comment.find({ product: req.params.productId })
         .populate("user", "name email")
@@ -47,9 +47,9 @@ export const getProductComments = asyncHandler(async (req, res, next) => {
     res.status(200).json({ status: "success", results: topLevel.length, data: topLevel });
 });
 
-// ─────────────────────────────────────────
-// UPDATE COMMENT  PATCH /api/products/:productId/comments/:id
-// ─────────────────────────────────────────
+// update comment 
+// PATCH /api/products/:productId/comments/:id
+
 export const updateComment = asyncHandler(async (req, res, next) => {
     const comment = await Comment.findById(req.params.id);
     if (!comment) return next(new appError("Comment not found", 404));
@@ -64,10 +64,10 @@ export const updateComment = asyncHandler(async (req, res, next) => {
     res.status(200).json({ status: "success", data: comment });
 });
 
-// ─────────────────────────────────────────
-// DELETE COMMENT  DELETE /api/products/:productId/comments/:id
-// Also deletes all replies to that comment
-// ─────────────────────────────────────────
+// Delete comment 
+// DELETE /api/products/:productId/comments/:id
+// also deletes all replies to that comment
+
 export const deleteComment = asyncHandler(async (req, res, next) => {
     const comment = await Comment.findById(req.params.id);
     if (!comment) return next(new appError("Comment not found", 404));

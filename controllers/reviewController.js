@@ -4,9 +4,9 @@ import Product from "../models/productBase.js";
 import { appError } from "../utils/appError.js";
 import mongoose from "mongoose";
 
-// ─────────────────────────────────────────
-// ADD REVIEW  POST /api/products/:productId/reviews
-// ─────────────────────────────────────────
+// Add Review 
+// POST /api/products/:productId/reviews
+
 export const addReview = asyncHandler(async (req, res, next) => {
     const { productId } = req.params;
 
@@ -24,9 +24,9 @@ export const addReview = asyncHandler(async (req, res, next) => {
     res.status(201).json({ status: "success", data: review });
 });
 
-// ─────────────────────────────────────────
-// GET ALL REVIEWS FOR A PRODUCT  GET /api/products/:productId/reviews
-// ─────────────────────────────────────────
+// Get all Reviews for a product  
+// GET /api/products/:productId/reviews
+
 export const getProductReviews = asyncHandler(async (req, res, next) => {
     const reviews = await Review.find({ product: req.params.productId })
         .populate("user", "name email");
@@ -34,9 +34,9 @@ export const getProductReviews = asyncHandler(async (req, res, next) => {
     res.status(200).json({ status: "success", results: reviews.length, data: reviews });
 });
 
-// ─────────────────────────────────────────
-// UPDATE REVIEW  PATCH /api/products/:productId/reviews/:id
-// ─────────────────────────────────────────
+// Update Review 
+// PATCH /api/products/:productId/reviews/:id
+
 export const updateReview = asyncHandler(async (req, res, next) => {
     const review = await Review.findById(req.params.id);
     if (!review) return next(new appError("Review not found", 404));
@@ -53,9 +53,9 @@ export const updateReview = asyncHandler(async (req, res, next) => {
     res.status(200).json({ status: "success", data: review });
 });
 
-// ─────────────────────────────────────────
-// DELETE REVIEW  DELETE /api/products/:productId/reviews/:id
-// ─────────────────────────────────────────
+// Delete Review  
+// DELETE /api/products/:productId/reviews/:id
+
 export const deleteReview = asyncHandler(async (req, res, next) => {
     const review = await Review.findById(req.params.id);
     if (!review) return next(new appError("Review not found", 404));
@@ -70,9 +70,8 @@ export const deleteReview = asyncHandler(async (req, res, next) => {
     res.status(204).json({ status: "success", data: null });
 });
 
-// ─────────────────────────────────────────
-// HELPER: recalculate and save product rating stats
-// ─────────────────────────────────────────
+// recalculate and save product rating stats
+
 const updateProductRating = async (productId) => {
     const stats = await Review.aggregate([
         { $match: { product: new mongoose.Types.ObjectId(productId) } },

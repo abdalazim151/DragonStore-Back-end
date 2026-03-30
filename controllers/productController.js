@@ -11,9 +11,9 @@ const categoryModels = {
     'headphone': Headphone,
 };
 
-// ─────────────────────────────────────────
-// CREATE PRODUCT  POST /api/products
-// ─────────────────────────────────────────
+// Create product 
+//  POST /api/products
+
 export const createProduct = asyncHandler(async (req, res, next) => {
     const { Type } = req.body;
     const Model = categoryModels[Type];
@@ -26,9 +26,8 @@ export const createProduct = asyncHandler(async (req, res, next) => {
     res.status(201).json({ status: "success", data: product });
 });
 
-// ─────────────────────────────────────────
-// GET ALL PRODUCTS  GET /api/products
-// ─────────────────────────────────────────
+// Get all products 
+// GET /api/products
 export const getAllProducts = asyncHandler(async (req, res, next) => {
     const { category, search, minPrice, maxPrice, page = 1, limit = 10 } = req.query;
 
@@ -68,18 +67,18 @@ export const getAllProducts = asyncHandler(async (req, res, next) => {
     });
 });
 
-// ─────────────────────────────────────────
-// GET ONE PRODUCT  GET /api/products/:id
-// ─────────────────────────────────────────
+// Get one product 
+// GET /api/products/:id
+
 export const getProduct = asyncHandler(async (req, res, next) => {
     const product = await Product.findById(req.params.id).populate("user", "name email");
     if (!product) return next(new appError("Product not found", 404));
     res.status(200).json({ status: "success", data: product });
 });
 
-// ─────────────────────────────────────────
-// UPDATE PRODUCT  PATCH /api/products/:id
-// ─────────────────────────────────────────
+// Update product 
+//  PATCH /api/products/:id
+
 export const updateProduct = asyncHandler(async (req, res, next) => {
     const product = await Product.findById(req.params.id);
     if (!product) return next(new appError("Product not found", 404));
@@ -97,9 +96,9 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
     res.status(200).json({ status: "success", data: updated });
 });
 
-// ─────────────────────────────────────────
-// DELETE PRODUCT  DELETE /api/products/:id
-// ─────────────────────────────────────────
+// Delete product 
+// DELETE /api/products/:id
+
 export const deleteProduct = asyncHandler(async (req, res, next) => {
     const product = await Product.findById(req.params.id);
     if (!product) return next(new appError("Product not found", 404));
