@@ -6,7 +6,7 @@ const notificationSchema = mongoose.Schema({
     },
     to: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'users',
         required: [true, 'notification must belong to a user']
     },
     content:{

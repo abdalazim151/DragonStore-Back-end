@@ -3,12 +3,12 @@ import mongoose from "mongoose";
 const favoriteSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'users',
         required: [true, 'Favorite must belong to a user']
     },
     product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        ref: 'products',
         required: [true, 'Favorite must have a product']
     }
 });

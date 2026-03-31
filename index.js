@@ -9,7 +9,8 @@ import passport from 'passport';
 import "./services/passport.js"
 import authRoutes from "./Routers/authRouter.js"
 import UserRouter from "./Routers/userRouter.js"
-import productRouter from "./Routers/productRouter.js"; 
+import productRouter from "./Routers/productRouter.js";
+import {reviewRouter} from "./Routers/reviewRouter.js"
 const app = express();
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
@@ -27,11 +28,12 @@ app.use(passport.initialize());
 app.use('/', authRoutes);
 app.use('/auth', UserRouter)
 app.use('/api/products', productRouter);
+app.use('/review',reviewRouter)
 app.all(/.*/, (req, res, next) => {
     next(new appError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-app.use(globalError)
+// app.use(globalError)
 
 
 

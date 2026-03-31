@@ -9,12 +9,12 @@ const rateSchema = new mongoose.Schema({
     },
     product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
+        ref: 'products',
         required: [true, 'Review must belong to a product.']
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'users',
         required: [true, 'Review must belong to a user.']
     }
 }, { timestamps: true });

@@ -26,7 +26,7 @@ const ProductSchema = new mongoose.Schema({
     },
     user: {
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User',                         
+        ref: 'users',                         
         required: [true, 'Product must belong to a user']
     },
     img:{
