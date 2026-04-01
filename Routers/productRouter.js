@@ -22,7 +22,7 @@ productRouter
     .route("/")
     .get(getAllProducts)          // public – GET /api/products
 //   .post(auth, allowedTo('admin', 'seller'), createProduct);// auth required – POST /api/products
-     .post(auth,upload.single('img'), createProduct);
+    .post(auth, allowedTo('admin', 'seller'),upload.single('img'), createProduct);
 productRouter
     .route("/:id")
     .get(getProduct)                    // public

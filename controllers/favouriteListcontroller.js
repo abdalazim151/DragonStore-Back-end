@@ -1,4 +1,4 @@
-import Favorite from "../models/favouriteList.js";
+import Favorite from "../models/favoritelist.js";
 
 export const addToFavorite = async (req, res) => {
   try {
@@ -30,12 +30,10 @@ export const removeFromFavorite = async (req, res) => {
   try {
     const { productId } = req.params;
     const userId = req.user._id;
-
     const result = await Favorite.findOneAndDelete({
       user: userId,
       product: productId,
     });
-
     if (!result) {
       return res
         .status(404)
@@ -44,7 +42,6 @@ export const removeFromFavorite = async (req, res) => {
           message: " Product not found in your favorites ",
         });
     }
-
     res
       .status(200)
       .json({
