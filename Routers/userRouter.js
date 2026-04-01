@@ -1,10 +1,14 @@
 import { Router } from "express";
 import {
-    login,
-    register,
-    getUsers,
-    getUserById
-} from "../controllers/userController.js";
+     login,
+      register,
+       getUserById,
+        getUsers, 
+        getTopBuyers,
+        getTopSellers 
+                      } 
+        from "../controllers/userController.js";
+
 import upload from "../services/cloudinary.js";
 // import { auth, allowedTo } from "../middleware/authMiddleware.js";
 
@@ -17,7 +21,8 @@ router.post('/register', upload.single('img'), register);
 // router.get('/users', auth, allowedTo('admin'), getUsers);
 // router.get('/users/:id', auth, allowedTo('admin'), getUserById);
 
+router.get('/users/top-buyers', getTopBuyers);
+router.get('/users/top-sellers', getTopSellers);
 router.get('/users', getUsers);
 router.get('/users/:id', getUserById);
-
 export default router;
