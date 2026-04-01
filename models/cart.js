@@ -1,27 +1,33 @@
 import mongoose from "mongoose";
 
-const cartSchema = new mongoose.Schema({
+const cart = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', 
-        required: [true, 'Cart must belong to a user']
+        ref: 'users',
+        required: [true, 'cart item must belong to a user']
     },
     product: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product',
-        required: [true, 'Cart must have a product']
+        ref: 'products',
+        required: [true, 'cart item must have a product']
     },
-    quantity: {
-        type: Number,
-        default: 1,
-        min: [1, 'Quantity cannot be less than 1']
+    quantity:{
+        type:Number,
+        required:true
     },
-    status: {
-        type: String,
-        enum: ['pending', 'accepted'],
-        default: 'pending'
+    status:{
+        type:String,
+        enum:['not-confirmed','pending','accepted','rejected'],
+        default:'not-confirmed'
     }
-},);
-cartSchema.index({ user: 1, product: 1, status: 1 }, { unique: true });
-const Cart = mongoose.model('cart', cartSchema);
+});
+cart.index({ user: 1, product: 1, status:1 });
+const Cart = mongoose.model('carts', cart);
 export default Cart;
+
+
+
+
+
+
+
