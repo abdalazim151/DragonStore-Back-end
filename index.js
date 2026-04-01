@@ -28,6 +28,13 @@ mongoose
 
 app.use(express.json());
 app.use(passport.initialize());
+app.use('/', authRoutes);
+app.use('/auth', UserRouter)
+app.use('/api/products', productRouter);
+app.use('/review',reviewRouter)
+app.use('/comments', commentRouter)
+app.use('/favourites', favouriteRouter)
+
 app.use("/", authRoutes);
 app.use("/auth", UserRouter);
 app.use("/api/products", productRouter);
