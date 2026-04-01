@@ -30,7 +30,7 @@ export const addReview = asyncHandler(async (req, res, next) => {
 
 export const getProductReviews = asyncHandler(async (req, res, next) => {
     const reviews = await Review.find({ product: req.params.productId })
-        .populate("users", "name email");
+        .populate("user", "firstName email");
 
     res.status(200).json({ status: "success", results: reviews.length, data: reviews });
 });

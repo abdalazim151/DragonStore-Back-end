@@ -54,7 +54,7 @@ export const getAllProducts = asyncHandler(async (req, res, next) => {
     const skip = (Number(page) - 1) * Number(limit);
 
     const [products, total] = await Promise.all([
-        Product.find(filter).skip(skip).limit(Number(limit)).populate("users", "name email"),
+        Product.find(filter).skip(skip).limit(Number(limit)).populate("user", "name email"),
         Product.countDocuments(filter),
     ]);
 

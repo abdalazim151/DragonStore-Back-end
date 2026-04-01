@@ -7,9 +7,10 @@ import { appError } from "../utils/appError.js";
 // body: { content, parent? }  parent is optional (for replies)
 
 export const addComment = asyncHandler(async (req, res, next) => {
+
     const comment = await Comment.create({
         content: req.body.content,
-        product: req.params.productId,
+        product: req.params.id, 
         user: req.user._id,
         parent: req.body.parent || null,
     });
@@ -23,7 +24,7 @@ export const addComment = asyncHandler(async (req, res, next) => {
 
 export const getProductComments = asyncHandler(async (req, res, next) => {
     const allComments = await Comment.find({ product: req.params.productId })
-        .populate("users", "name email")
+        .populate("user", "firstName email")
         .sort({ createdAt: 1 });
 
     const commentMap = {};
