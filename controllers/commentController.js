@@ -23,7 +23,7 @@ export const addComment = asyncHandler(async (req, res, next) => {
 
 export const getProductComments = asyncHandler(async (req, res, next) => {
     const allComments = await Comment.find({ product: req.params.productId })
-        .populate("user", "name email")
+        .populate("users", "name email")
         .sort({ createdAt: 1 });
 
     const commentMap = {};

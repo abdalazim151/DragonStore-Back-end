@@ -4,6 +4,7 @@ import Product from "../models/productBase.js";
 import { appError } from "../utils/appError.js";
 import mongoose from "mongoose";
 
+
 // Add Review 
 // POST /api/products/:productId/reviews
 
@@ -29,7 +30,7 @@ export const addReview = asyncHandler(async (req, res, next) => {
 
 export const getProductReviews = asyncHandler(async (req, res, next) => {
     const reviews = await Review.find({ product: req.params.productId })
-        .populate("user", "name email");
+        .populate("users", "name email");///
 
     res.status(200).json({ status: "success", results: reviews.length, data: reviews });
 });
