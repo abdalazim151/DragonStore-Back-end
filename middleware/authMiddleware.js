@@ -5,10 +5,10 @@ export const auth = async (req, res, next) => {
   let { authorization } = req.headers;
   if (!authorization) return res.status(401).json({ message: "no token" });
   try {
-    console.log(88888888888);
     const token = authorization.startsWith("Bearer ")
       ? authorization.split(" ")[1]
       : authorization;
+    console.log(process.env.TOKEN_SECRET)
     let v = jwt.verify(token, process.env.TOKEN_SECRET);
     let user = await User.findById(v.id);
     if (!user) return res.status(500).json({ msg: "user not found" });
@@ -23,7 +23,9 @@ export const auth = async (req, res, next) => {
 
 export const allowedTo = (...roles) => {
   return (req, res, next) => {
+    console.log("innnnnnnnnnnnnn")
     const isAllowed = req.roles.some((role) => roles.includes(role));
+    console.log(isAllowed)
     if (isAllowed) next();
     else return res.status(403).json("forbidden");
   };
