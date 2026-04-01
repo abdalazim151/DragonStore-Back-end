@@ -14,6 +14,7 @@ import productRouter from "./Routers/productRouter.js";
 import { reviewRouter } from "./Routers/reviewRouter.js";
 import { commentRouter } from "./Routers/commentRouter.js";
 import favouriteRouter from "./Routers/favouriteRouter.js"
+import Seller from "./Routers/sellerRouter.js"
 const app = express();
 mongoose
   .connect(process.env.MONGO_URI)
@@ -37,6 +38,7 @@ app.use("/api/products", productRouter);
 app.use("/review", reviewRouter);
 app.use("/comments", commentRouter);
 app.use("/cart", cartRouter);
+app.use('/seller',Seller)
 app.all(/.*/, (req, res, next) => {
   next(new appError(`Can't find ${req.originalUrl} on this server!`, 404));
 });

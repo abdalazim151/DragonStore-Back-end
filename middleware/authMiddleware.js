@@ -23,7 +23,6 @@ export const auth = async (req, res, next) => {
 
 export const allowedTo = (...roles) => {
   return (req, res, next) => {
-    console.log("innnnnnnnnnnnnn")
     const isAllowed = req.roles.some((role) => roles.includes(role));
     console.log(isAllowed)
     if (isAllowed) next();
