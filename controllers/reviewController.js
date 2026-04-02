@@ -9,18 +9,18 @@ import mongoose from "mongoose";
 // POST /api/products/:productId/reviews
 
 export const addReview = asyncHandler(async (req, res, next) => {
-    const { productId } = req.params;
+    const { id } = req.params;
 
-    const existing = await Review.findOne({ product: productId, user: req.user._id });
+    const existing = await Review.findOne({ product: id, user: req.user._id });
     if (existing) return next(new appError("You already reviewed this product", 400));
 
     const review = await Review.create({
         rating: req.body.rating,
-        product: productId,
+        product: id,
         user: req.user._id,
     });
 
-    await updateProductRating(productId);
+    await updateProductRating(id);
 
     res.status(201).json({ status: "success", data: review });
 });
@@ -29,7 +29,7 @@ export const addReview = asyncHandler(async (req, res, next) => {
 // GET /api/products/:productId/reviews
 
 export const getProductReviews = asyncHandler(async (req, res, next) => {
-    const reviews = await Review.find({ product: req.params.productId })
+    const reviews = await Review.find({ product: req.params.id })
         .populate("user", "firstName email");
 
     res.status(200).json({ status: "success", results: reviews.length, data: reviews });

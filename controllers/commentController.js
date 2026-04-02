@@ -23,8 +23,8 @@ export const addComment = asyncHandler(async (req, res, next) => {
 // returns top-level comments with their replies nested
 
 export const getProductComments = asyncHandler(async (req, res, next) => {
-    const allComments = await Comment.find({ product: req.params.productId })
-        .populate("user", "firstName email")
+    const allComments = await Comment.find({ product: req.params.id })
+        .populate("user", "firstName email")                
         .sort({ createdAt: 1 });
 
     const commentMap = {};

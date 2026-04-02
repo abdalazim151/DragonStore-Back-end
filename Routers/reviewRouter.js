@@ -11,12 +11,12 @@ import { auth, allowedTo } from "../middleware/authMiddleware.js";
 const reviewRouter = express.Router({ mergeParams: true });
 
 reviewRouter
-    .route("/")
+    .route("/:id")
     .get(getProductReviews)       // GET  /api/products/:productId/reviews
-    .post(auth, addReview);    // POST /api/products/:productId/reviews
 
 reviewRouter
     .route("/:id")
+    .post(auth, addReview)    // POST /api/products/:productId/reviews
      .patch(auth, updateReview)    // PATCH  /api/products/:productId/reviews/:id
       .delete(auth, deleteReview); // DELETE /api/products/:productId/reviews/:id
 
