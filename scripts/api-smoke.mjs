@@ -22,11 +22,19 @@ async function req(path, opts = {}) {
 async function main() {
   const checks = [];
 
-  const h = await req("/health");
-  checks.push(["GET /health", h.ok && h.body?.status === "ok"]);
+  try {
+    const h = await req("/health");
+    checks.push(["GET /health", h.ok && h.body?.status === "ok"]);
 
-  const p = await req("/api/products?limit=1");
-  checks.push(["GET /api/products", p.ok && p.body?.status === "success"]);
+    const p = await req("/api/products?limit=1");
+    checks.push(["GET /api/products", p.ok && p.body?.status === "success"]);
+  } catch (e) {
+    const msg = e?.cause?.code === "ECONNREFUSED" || e?.code === "ECONNREFUSED"
+      ? `Nothing listening at ${base}. Start the API: npm run dev`
+      : e.message;
+    console.error(msg);
+    process.exit(1);
+  }
 
   const failed = checks.filter(([, ok]) => !ok);
   for (const [name, ok] of checks) {
@@ -34,7 +42,7 @@ async function main() {
   }
   if (failed.length) {
     console.error(
-      "\nSmoke test failed. Start the server: npm run dev\nOr set API_URL to a reachable backend."
+      "\nSmoke test failed. Fix API errors or set API_URL to a reachable backend."
     );
     process.exit(1);
   }
