@@ -10,7 +10,7 @@ export const addComment = asyncHandler(async (req, res, next) => {
 
     const comment = await Comment.create({
         content: req.body.content,
-        product: req.params.id, 
+        product: req.params.productId,
         user: req.user._id,
         parent: req.body.parent || null,
     });
@@ -23,7 +23,7 @@ export const addComment = asyncHandler(async (req, res, next) => {
 // returns top-level comments with their replies nested
 
 export const getProductComments = asyncHandler(async (req, res, next) => {
-    const allComments = await Comment.find({ product: req.params.id })
+    const allComments = await Comment.find({ product: req.params.productId })
         .populate("user", "firstName email")                
         .sort({ createdAt: 1 });
 

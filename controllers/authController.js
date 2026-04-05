@@ -5,12 +5,11 @@ import User from "../models/user.js";
 
 export const Resolve = (req, res) => {
     const { token, refreshToken } = req.user;
-    res.status(200).json({
-        success: true,
-        message: "User authenticated successfully",
-        accessToken: token,
-        refreshToken: refreshToken
-    });
+    const frontend = process.env.FRONTEND_URL || "http://localhost:5173";
+    const url = new URL("/auth/callback", frontend);
+    url.searchParams.set("accessToken", token);
+    url.searchParams.set("refreshToken", refreshToken);
+    res.redirect(302, url.toString());
 };
 
 export const auth = asyncHandler(async (req, res, next) => {
