@@ -11,19 +11,45 @@ const categoryModels = {
     'headphone': Headphone,
 };
 
-// Create product 
+function normalizeProductBody(body) {
+    const out = { ...body };
+    for (const key of ["storage", "specifications"]) {
+        if (typeof out[key] === "string" && out[key].trim().startsWith("{")) {
+            try {
+                out[key] = JSON.parse(out[key]);
+            } catch {
+                /* ignore */
+            }
+        }
+    }
+    const boolKeys = ["is5G", "hasNoiseCancelling", "microphone"];
+    for (const k of boolKeys) {
+        if (out[k] === "true") out[k] = true;
+        if (out[k] === "false") out[k] = false;
+    }
+    if (out.price != null && out.price !== "") out.price = Number(out.price);
+    if (out.ram != null && out.ram !== "" && !Number.isNaN(Number(out.ram))) out.ram = Number(out.ram);
+    if (out.screenSize != null && out.screenSize !== "" && !Number.isNaN(Number(out.screenSize)))
+        out.screenSize = Number(out.screenSize);
+    return out;
+}
+
+// Create product
 //  POST /api/products
 
 export const createProduct = asyncHandler(async (req, res, next) => {
-    const { Type } = req.body;
+    const body = normalizeProductBody(req.body);
+    const { Type } = body;
     const Model = categoryModels[Type];
-    const imageUrl = req.file.path
-    console.log(imageUrl)
+    if (!req.file) {
+        return next(new appError("Product image is required", 400));
+    }
+    const imageUrl = req.file.path;
     if (!Model) {
         return next(new appError("Invalid category. Choose: Laptop | mobiles | headphone", 400));
     }
 
-    const product = await Model.create({ ...req.body, user: req.user._id,img:imageUrl });
+    const product = await Model.create({ ...body, user: req.user._id, img: imageUrl });
     res.status(201).json({ status: "success", data: product });
 });
 
@@ -89,7 +115,9 @@ export const updateProduct = asyncHandler(async (req, res, next) => {
     }
 
     const Model = categoryModels[product.Type] || Product;
-    const updated = await Model.findByIdAndUpdate(req.params.id, req.body, {
+    const body = normalizeProductBody(req.body);
+    if (req.file) body.img = req.file.path;
+    const updated = await Model.findByIdAndUpdate(req.params.id, body, {
         new: true,
         runValidators: true,
     });
