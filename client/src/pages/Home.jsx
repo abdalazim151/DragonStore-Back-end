@@ -9,11 +9,20 @@ export default function Home() {
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
   const [category, setCategory] = useState("");
+  const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setSearch(searchInput);
+      setPage(1);
+    }, 400);
+    return () => clearTimeout(t);
+  }, [searchInput]);
 
   useEffect(() => {
     const q = new URLSearchParams();
@@ -53,11 +62,8 @@ export default function Home() {
             <input
               type="search"
               placeholder="Search titles..."
-              value={search}
-              onChange={(e) => {
-                setPage(1);
-                setSearch(e.target.value);
-              }}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
           </label>
           <label>

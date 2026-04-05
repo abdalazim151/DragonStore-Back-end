@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { apiFetch } from "../api/client";
+import { apiFetch, googleAuthUrl } from "../api/client";
 import { useAuth } from "../context/AuthContext";
 import "./FormPage.css";
 
@@ -62,6 +62,15 @@ export default function Login() {
         {error && <p className="form-error">{error}</p>}
         <button type="submit" className="btn primary wide" disabled={loading}>
           {loading ? "Signing in…" : "Sign in"}
+        </button>
+        <button
+          type="button"
+          className="btn ghost wide"
+          onClick={() => {
+            window.location.href = googleAuthUrl();
+          }}
+        >
+          Continue with Google
         </button>
       </form>
       <p className="form-footer">

@@ -109,8 +109,9 @@ export default function ProductDetail() {
       ? (product.ratingSum / product.ratingsQuantity).toFixed(2)
       : null;
 
+  const ownerRef = product.user?._id ?? product.user;
   const isOwner =
-    isSeller && product.user && String(product.user) === String(userId);
+    isSeller && ownerRef && String(ownerRef) === String(userId);
 
   return (
     <div className="product-detail">
