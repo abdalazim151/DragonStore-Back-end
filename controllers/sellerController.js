@@ -21,7 +21,6 @@ export const Response = asyncHandler(async (req, res, next) => {
     if (!isAccepted && !isRejected) {
         return next(new appError("Response must be true or false", 400));
     }
-    console.log(id,"555555555555555555555")
     const item = await Cart.findOne({
         _id: id,
         status: "pending"
@@ -31,7 +30,7 @@ export const Response = asyncHandler(async (req, res, next) => {
     }
     
     if (item.product.user.toString() !== vendorId.toString()) {
-        return next(new AppError("You are not authorized to respond to this order", 403));
+        return next(new appError("You are not authorized to respond to this order", 403));
     }
     item.status = isAccepted ? "accepted" : "rejected";
     await item.save();

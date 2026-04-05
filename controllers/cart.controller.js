@@ -109,7 +109,7 @@ export const payCart = asyncHandler(async (req, res, next) => {
         populate: { path: "user", select: "name email" }
     });
 
-    if (!items.length) return next(new AppError("Cart is empty", 400));
+    if (!items.length) return next(new appError("Cart is empty", 400));
 
     for (const item of items) {
         console.log(`Processing vendor: ${item.product.user.email}`);
