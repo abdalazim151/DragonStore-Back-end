@@ -17,12 +17,12 @@ A robust and scalable E-commerce RESTful API built with **Node.js** and **Expres
 
 ## 🛠️ Tech Stack
 
-*   **Runtime**: Node.js[cite: 1]
-*   **Framework**: Express.js[cite: 1]
-*   **Database**: MongoDB[cite: 1]
+*   **Runtime**: Node.js
+*   **Framework**: Express.js
+*   **Database**: MongoDB
 *   **ODM**: Mongoose
-*   **Security**: JWT, Bcrypt
-*   **Environment**: Dotenv for secure configuration management
+*   **Security**: JWT and Bcrypt
+*   **Environment**: Dotenv for secure configuration management[cite: 1]
 
 ---
 
@@ -36,21 +36,3 @@ DragonStore-Back-end/
 ├── utils/          # Helper functions and utilities
 ├── .env            # Environment variables (not tracked)
 └── server.js       # Application entry point
-
-
-# For production
-    npm start
-
-    # For development (with nodemon)
-    npm run dev
-    ```
-
----
-
-## 👨‍💻 Author
-
-**Abdalazim Ahmed Abdalazim Thabet**[cite: 1]
-*   **Software Engineer** | Cairo, Egypt[cite: 1]
-*   **B.Sc. in Computer Science** with Honors | Sohag University[cite: 1]
-*   **Codeforces Expert** | [cite: 1]
-*   **ICPC Regionalist** & Mentor[cite: 1]
