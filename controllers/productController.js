@@ -29,6 +29,7 @@ export const createProduct = asyncHandler(async (req, res, next) => {
 
 // Get all products 
 // GET /api/products
+/////////////////////////////
 export const getAllProducts = asyncHandler(async (req, res, next) => {
     const { category, search, minPrice, maxPrice, page = 1, limit = 10 } = req.query;
 
